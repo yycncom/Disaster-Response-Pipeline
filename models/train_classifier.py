@@ -48,8 +48,7 @@ def tokenize(text):
     #Clean data, remove all character except character and number,such as punctuation etc.
     text = re.sub(r'[^a-zA-Z0-9]', ' ', text.lower())
     tokens = word_tokenize(text)
-    stopwords_english = stopwords.words('english')
-    tokens = [WordNetLemmatizer().lemmatize(word) for word in tokens if word not in stopwords_english]
+    tokens = [WordNetLemmatizer().lemmatize(word) for word in tokens if word not in stopwords.words('english')]
     return tokens
 
 
