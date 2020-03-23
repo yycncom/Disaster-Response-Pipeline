@@ -24,6 +24,7 @@ from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.tokenize import word_tokenize, sent_tokenize
 
+ST_english = stopwords.words('english')
 
 def load_data(database_filepath):
     # load data from database
@@ -48,7 +49,7 @@ def tokenize(text):
     #Clean data, remove all character except character and number,such as punctuation etc.
     text = re.sub(r'[^a-zA-Z0-9]', ' ', text.lower())
     tokens = word_tokenize(text)
-    tokens = [WordNetLemmatizer().lemmatize(word) for word in tokens if word not in stopwords.words('english')]
+    tokens = [WordNetLemmatizer().lemmatize(word) for word in tokens if word not in ST_english]
     return tokens
 
 
