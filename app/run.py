@@ -7,7 +7,8 @@ from nltk.tokenize import word_tokenize
 
 from flask import Flask
 from flask import render_template, request, jsonify
-from plotly.graph_objs import Bar
+from plotly.graph_objs import Bar, Heatmap
+
 from sklearn.externals import joblib
 from sqlalchemy import create_engine
 
@@ -44,6 +45,11 @@ def index():
     genre_names = list(genre_counts.index)
     categories_counts = df.loc[:,'related':].sum().sort_values(ascending=False)
     categories_names = list(categories_counts.index) 
+    categories_counts_top5 = categories_counts[:5]
+    categories_names_top5 = list(categories_counts_top5.index)
+    df_Y = df.loc[:,'related':]
+    correlation_array = df_Y[categories_names_top5].corr().values
+
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [{
@@ -82,7 +88,25 @@ def index():
                     'title': "Disaster Categories"
                 }
             }
+        },
+         {
+            'data': [
+                Heatmap(
+                    z=correlation_array
+                )
+            ],
+
+            'layout': {
+                'title': 'Correlation of Top 5 Categories',
+                'yaxis': {
+                    'title': "Top 5 Categories Name"
+                },
+                'xaxis': {
+                    'title': "Top 5 Categories Name"
+                }
+            }
         }
+        
     ]
     
     # encode plotly graphs in JSON

@@ -39,7 +39,7 @@ def load_data(database_filepath):
     df_Y.loc[df_Y[df_Y['related'] == 2]['related'].index,'related'] =1
     category_names = list(df_Y.columns)
     Y = df_Y.values
-    return X,Y,category_names
+    return X, Y, df_Y, category_names
 
 def tokenize(text):
     """
@@ -71,7 +71,7 @@ def build_model():
    
     return cv
 
-def evaluate_model(model, X_test, Y_test, category_names, df_Y=df_Y):
+def evaluate_model(model, X_test, Y_test, category_names, df_Y):
     Y_pred = model.predict(X_test)
     df_categories = df_Y
     for category_name in category_names: 
@@ -81,7 +81,7 @@ def evaluate_model(model, X_test, Y_test, category_names, df_Y=df_Y):
             Y_test[:, category_names.index(category_name)], 
             #Get the column from Y_pred array, which column name is target_name.    
             Y_pred[:, category_names.index(category_name)], 
-            category_names=[category_name +'-'+ str(cate) for cate in df_categories[category_name].unique()]
+            target_names=[category_name +'-'+ str(cate) for cate in df_categories[category_name].unique()]
             )
         ) 
     
@@ -100,7 +100,7 @@ def main():
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
-        X, Y, category_names = load_data(database_filepath)
+        X, Y, df_Y, category_names = load_data(database_filepath)
         X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
         
         print('Building model...')
@@ -110,7 +110,7 @@ def main():
         model.fit(X_train, Y_train)
         
         print('Evaluating model...')
-        evaluate_model(model, X_test, Y_test, category_names)
+        evaluate_model(model, X_test, Y_test, category_names, df_Y)
 
         print('Saving model...\n    MODEL: {}'.format(model_filepath))
         save_model(model, model_filepath)
