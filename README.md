@@ -38,6 +38,7 @@ This project including a web app where an emergency worker can input a new messa
   1. ETL Pipeline
  
   In a Python script, process_data.py, data cleaning pipeline :
+
     - Loads the messages and categories datasets
     - Merges the two datasets
     - Cleans the data
@@ -45,6 +46,7 @@ This project including a web app where an emergency worker can input a new messa
   2. ML Pipeline
   
   In a Python script, train_classifier.py, a machine learning pipeline that:
+
     - Loads data from the SQLite database
     - Splits the dataset into training and test sets
     - Builds a text processing and machine learning pipeline
@@ -52,6 +54,7 @@ This project including a web app where an emergency worker can input a new messa
     - Outputs results on the test set
     - Exports the final model as a pickle file(classifier.pkl)    
   3. Flask Web App
+  
     - data visualizations using Plotly in the web app. 
     - classification results in several categories. 
     
