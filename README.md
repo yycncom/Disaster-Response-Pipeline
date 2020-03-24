@@ -4,11 +4,13 @@ Creating a machine learning pipeline to categorize these events so that sending 
 This project including a web app where an emergency worker can input a new message and get classification results in several categories. The web app also displaying visualizations of the data. 
 
 ### Instructions:
+
 1. Run the following commands in the project's root directory to set up your database and model.
 
-    - To run ETL pipeline that cleans data and stores in database
+
+   - To run ETL pipeline that cleans data and stores in database
         `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
-    - To run ML pipeline that trains classifier and saves
+   - To run ML pipeline that trains classifier and saves
         `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
 
 2. Run the following command in the app's directory to run your web app.
@@ -55,6 +57,7 @@ In a Python script, `train_classifier.py`, a machine learning pipeline that:
    - Exports the final model as a pickle file(classifier.pkl)    
 
 3. Flask Web App
+
 In a Python script,`run.py`,flask web app:
 
    - data visualizations using Plotly in the web app. 
