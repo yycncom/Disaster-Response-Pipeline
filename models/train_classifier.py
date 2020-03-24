@@ -71,24 +71,26 @@ def build_model():
    
     return cv
 
-def evaluate_model(model, X_test, Y_test, category_names):
-    labels = category_names
-    Y_pred = model.predict(X_test)    
-    accuracy = (Y_pred == Y_test).mean()
-    TP = ((Y_pred + Y_test) ==2).sum()
-    TN = ((Y_pred + Y_test) ==0).sum()
-    FN = ((Y_pred - Y_test)== -1).sum()
-    FP = ((Y_pred - Y_test)== 1).sum()
-    Precision = TP/(TP + FP)
-    Recall = TP/(TP + FN)
-    F1 = 2 * Precision * Recall/(Precision +Recall)
+def evaluate_model(model, X_test, Y_test, category_names, df_Y=df_Y):
+    Y_pred = model.predict(X_test)
+    df_categories = df_Y
+    for category_name in category_names: 
+        print(
+            classification_report(
+            #Get the column from Y_test array, which column name is target_name.
+            Y_test[:, category_names.index(category_name)], 
+            #Get the column from Y_pred array, which column name is target_name.    
+            Y_pred[:, category_names.index(category_name)], 
+            category_names=[category_name +'-'+ str(cate) for cate in df_categories[category_name].unique()]
+            )
+        ) 
     
-    print("Labels:", labels)
-    print("Accuracy:", accuracy)
-    print("Precision:", Precision)
-    print("Recall:", Recall)
-    print("F1 score:", F1)
-    print("\nBest Parameters:", model.best_params_)
+#     print("Labels:", labels)
+#     print("Accuracy:", accuracy)
+#     print("Precision:", Precision)
+#     print("Recall:", Recall)
+#     print("F1 score:", F1)
+#     print("\nBest Parameters:", model.best_params_)
 
 def save_model(model, model_filepath):
     with open(model_filepath,'wb') as file:
